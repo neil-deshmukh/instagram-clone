@@ -38,6 +38,15 @@ export default function Navbar() {
         >
           Profile
         </Link>
+        <Link
+          href="/Createpost"
+          className={clsx(
+            "mx-[15px] cursor-pointer hover:font-semibold text-lg",
+            { "font-extrabold text-xl": usePathname() == "/Createpost" }
+          )}
+        >
+          Create Post
+        </Link>
       </ul>
     </header>
   );
