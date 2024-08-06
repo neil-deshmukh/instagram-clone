@@ -39,9 +39,9 @@ export default function SignIn() {
           notifySuccess(data.message);
           localStorage.setItem("jwt", data.token)
           setFormData({ email: "", password: "" });
+          window.location.replace("/")
         }
       })
-    redirect("/");
   };
   return (
     <div>
