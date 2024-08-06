@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
 import { toast, ToastContainer } from "react-toastify";
 
 
@@ -11,6 +13,29 @@ export default function CreatePost() {
   const [url, setUrl] = useState("")
   const notifyError = (msg) => toast.error(msg);
   const notifySuccess = (msg) => toast.success(msg);
+  useEffect(() => {
+    fetch("http://localhost:5000/createpost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        body: postData.body,
+        pic: url,
+      }),
+    })
+      .then((res) => res.json(res))
+      .then((data) => {
+        if (data.error) {
+          notifyError(data.error);
+          return;
+        } else {
+          notifySuccess(data.message);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [url])
   const postPost = () => {
     const data = new FormData()
     data.append("file", postData.photo)
@@ -20,27 +45,6 @@ export default function CreatePost() {
       method: "POST",
       body: data
     }).then(res => res.json()).then(data => setUrl(data.url)).catch(err => console.log(err))
-
-    fetch("http://localhost:5000/createpost", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("jwt")
-      },
-      body: JSON.stringify({
-        body: postData.body,
-        pic: url
-      })
-    }).then(res => res.json(res)).then(data => {
-      if (data.error) {
-        notifyError(data.error);
-        return;
-      } else {
-        notifySuccess(data.message);
-        localStorage.setItem("jwt", data.token);
-        setFormData({ email: "", password: "" });
-      }
-    }).catch(err => console.log(err))
   }
   const loadFile = (event) => {
       let output = document.getElementById("output");
