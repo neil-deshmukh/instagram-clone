@@ -1,7 +1,22 @@
+"use client"
+
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Image from "next/image";
 
 export default function Profile() {
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+    fetch("http://localhost:5000/myposts", {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
+    })
+      .then(res => res.json())
+      .then(myPosts => {
+        setPosts(myPosts)
+      })
+  }, [])
   return (
     <div>
       <Navbar />
@@ -27,48 +42,15 @@ export default function Profile() {
         </div>
         <hr className="w-[600px] my-[40px] border-black" />
         <div className="grid grid-cols-3 w-[600px] gap-6 mb-20">
-          <Image
-            src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-            width={160}
-            height={160}
-            alt="skibbdi"
-            className="w-full h-full"
-          />
-          <Image
-            src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-            width={160}
-            height={160}
-            alt="skibbdi"
-            className="w-full h-full"
-          />
-          <Image
-            src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-            width={160}
-            height={160}
-            alt="skibbdi"
-            className="w-full h-full"
-          />
-          <Image
-            src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-            width={160}
-            height={160}
-            alt="skibbdi"
-            className="w-full h-full"
-          />
-          <Image
-            src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-            width={160}
-            height={160}
-            alt="skibbdi"
-            className="w-full h-full"
-          />
-          <Image
-            src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-            width={160}
-            height={160}
-            alt="skibbdi"
-            className="w-full h-full"
-          />
+          {posts.map((post) => (
+            <Image
+              src={post.photo}
+              width={160}
+              height={160}
+              alt="skibbdi"
+              className="w-full h-full"
+            />
+          ))}
         </div>
       </div>
     </div>
