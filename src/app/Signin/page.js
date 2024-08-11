@@ -38,7 +38,7 @@ export default function SignIn() {
         } else {
           notifySuccess(data.message);
           localStorage.setItem("jwt", data.token)
-          setFormData({ email: "", password: "" });
+          localStorage.setItem("user", JSON.stringify(data.user))
           window.location.replace("/")
         }
       })

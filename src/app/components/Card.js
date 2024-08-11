@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { FaRegSmile } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
-
-export default function Card({ post }) {
+export default function Card({ post, likefunc, unlikefunc }) {
   return (
     <div className="flex flex-col space-y-6 border border-gray-400 rounded py-4">
       <div className="flex items-center space-x-3 px-4">
@@ -17,15 +17,24 @@ export default function Card({ post }) {
         <h5 className="font-semibold">{post.postedBy.username}</h5>
       </div>
       <div className="w-[500px]">
-        <img
-          src={post.photo}
-          className="w-full"
-        />
+        <img src={post.photo} className="w-full" />
       </div>
       <div className="flex flex-col space-y-3">
         <div className="flex flex-col space-y-3 px-4">
-          <FaRegHeart fontSize={24} />
-          <p className="font-semibold">2 likes</p>
+          <div className="cursor-pointer">
+            {post.likes.includes(
+              JSON.parse(localStorage.getItem("user"))._id
+            ) ? (
+              <FaHeart
+                fontSize={24}
+                color="red"
+                onClick={() => unlikefunc(post._id)}
+              />
+            ) : (
+              <FaRegHeart fontSize={24} onClick={() => likefunc(post._id)} />
+            )}
+          </div>
+          <p className="font-semibold">{post.likes.length}</p>
           <p className="text-gray-400">{post.body}</p>
         </div>
         <div className="flex items-center border-t border-gray-400 px-4 pt-3">
