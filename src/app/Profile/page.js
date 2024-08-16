@@ -3,9 +3,29 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Image from "next/image";
+import PostDeatails from "../components/PostDeatails.js";
 
 export default function Profile() {
   const [posts, setPosts] = useState([])
+  const [show, setShow] = useState(false)
+  const [dposts, setDposts] = useState([])
+  const toggleDetails = (post) => {
+    if (show) {
+      setShow(false);
+      fetch("http://localhost:5000/myposts", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      })
+        .then((res) => res.json())
+        .then((myPosts) => {
+          setPosts(myPosts);
+        });
+    } else {
+      setShow(true);
+      setDposts(post);
+    }
+  };
   useEffect(() => {
     fetch("http://localhost:5000/myposts", {
       headers: {
@@ -20,7 +40,7 @@ export default function Profile() {
   return (
     <div>
       <Navbar />
-      <div className="pt-24 flex flex-col items-center container mx-auto">
+      <div className="mt-[100px] flex flex-col items-center container mx-auto">
         <div className="flex space-x-28 items-center">
           <div className="rounded-full w-36 h-36 overflow-hidden">
             <Image
@@ -42,17 +62,20 @@ export default function Profile() {
         </div>
         <hr className="w-[600px] my-[40px] border-black" />
         <div className="grid grid-cols-3 w-[600px] gap-6 mb-20">
-          {posts.map((post) => (
+          {posts.map((post, i) => (
             <Image
               src={post.photo}
               width={160}
               height={160}
               alt="skibbdi"
-              className="w-full h-full"
+              className="w-full h-full cursor-pointer"
+              key={i}
+              onClick={() => toggleDetails(post)}
             />
           ))}
         </div>
       </div>
+      {show && <PostDeatails item={dposts} togglefunc={toggleDetails} />}
     </div>
   );
 }
