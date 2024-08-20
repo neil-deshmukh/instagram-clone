@@ -1,6 +1,7 @@
 "use  client"
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
@@ -18,7 +19,11 @@ export default function Card({ post, likefunc, unlikefunc, commentfunc, showComm
           className="rounded-full"
           alt="Skibbdi"
         />
-        <h5 className="font-semibold">{post.postedBy.username}</h5>
+        <h5 className="font-semibold cursor-pointer">
+          <Link href={`/Profile/${post.postedBy._id}`}>
+            {post.postedBy.username}
+          </Link>
+        </h5>
       </div>
       <div className="w-[500px]">
         <img src={post.photo} className="w-full" />
@@ -40,7 +45,12 @@ export default function Card({ post, likefunc, unlikefunc, commentfunc, showComm
           </div>
           <p className="font-semibold">{post.likes.length} likes</p>
           <p className="text-gray-400">{post.body}</p>
-          <p className="font-bold cursor-pointer" onClick={() => showCommentfunc(post)}>View All Comments</p>
+          <p
+            className="font-bold cursor-pointer"
+            onClick={() => showCommentfunc(post)}
+          >
+            View All Comments
+          </p>
         </div>
         <div className="flex items-center border-t border-gray-400 px-4 pt-3">
           <FaRegSmile fontSize={22} className="mr-2" />
@@ -50,10 +60,14 @@ export default function Card({ post, likefunc, unlikefunc, commentfunc, showComm
             className="pl-3 py-2 mr-3 w-full"
             onChange={(e) => setComment(e.target.value)}
           />
-          <button onClick={() => {
-            commentfunc(comment, post._id)
-            setComment("")
-          }}>Post</button>
+          <button
+            onClick={() => {
+              commentfunc(comment, post._id);
+              setComment("");
+            }}
+          >
+            Post
+          </button>
         </div>
       </div>
     </div>
