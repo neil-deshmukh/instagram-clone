@@ -7,18 +7,51 @@ export default function UserProfile() {
   const pathname = usePathname().split("/")
   const userId = pathname[pathname.length-1]
   const [userData, setUserData] = useState({});
-    useEffect(() => {
-      fetch(`http://localhost:5000/user/${userId}`, {
-        headers: {
-          "Authorization": "Bearer " + localStorage.getItem("jwt")
+  const [following, setFollowing] = useState(false)
+  useEffect(() => {
+    fetch(`http://localhost:5000/user/${userId}`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
+    })
+      .then(res => res.json())
+      .then(hisData => {
+        setUserData(hisData)
+        if (hisData.user.followers.includes(JSON.parse(localStorage.getItem("user"))._id)) {
+          setFollowing(true)
         }
       })
-        .then(res => res.json())
-        .then(hisData => {
-          setUserData(hisData)
-        })
-    }, [])
-          console.log(userData);
+  }, [following])
+  const followUser = (id) => {
+    fetch("http://localhost:5000/follow", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({followId: id})
+    }).then(res => res.json())
+      .then(data => {
+        setFollowing(true)
+      })
+    .catch(err => console.log(err))
+  }
+  const unFollowUser = (id) => {
+    fetch("http://localhost:5000/unfollow", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({ followId: id }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setFollowing(false)
+      })
+      .catch((err) => console.log(err));
+  };
+  console.log(userData);
   if (userData.user) {
     return (
       <div>
@@ -35,11 +68,30 @@ export default function UserProfile() {
               />
             </div>
             <div className="space-y-8">
-              <h1 className="font-semibold text-lg">{userData.user.username}</h1>
+              <div className="flex items-center justify-between">
+                <h1 className="font-semibold text-lg">
+                  {userData.user.username}
+                </h1>
+                <button
+                  className="cursor-pointer font-extrabold py-[13px] px-[25px] rounded-[15px] text-[0.8rem] border-none text-white bg-[#0115eb] ml-[20px] hover:-translate-y-3 hover:shadow-2xl"
+                  style={{ transition: "all 0.25s ease" }}
+                  onClick={() =>
+                    following
+                      ? unFollowUser(userData.user._id)
+                      : followUser(userData.user._id)
+                  }
+                >
+                  {following ? "Unfollow" : "Follow"}
+                </button>
+              </div>
               <div className="flex space-x-9">
                 <p>{userData.posts.length} posts</p>
-                <p className="cursor-pointer">10 followers</p>
-                <p className="cursor-pointer">10 following</p>
+                <p className="cursor-pointer">
+                  {userData.user.followers.length} followers
+                </p>
+                <p className="cursor-pointer">
+                  {userData.user.following.length} following
+                </p>
               </div>
             </div>
           </div>
