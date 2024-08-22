@@ -58,6 +58,15 @@ export default function Navbar() {
             Home
           </Link>
           <Link
+            href="/Followingposts"
+            className={clsx(
+              "mx-[15px] cursor-pointer hover:font-semibold text-lg",
+              { "font-extrabold text-xl": usePathname() == "/Followingposts" }
+            )}
+          >
+            Following Posts
+          </Link>
+          <Link
             href="/Profile"
             className={clsx(
               "mx-[15px] cursor-pointer hover:font-semibold text-lg",

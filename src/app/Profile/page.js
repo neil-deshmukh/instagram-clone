@@ -52,11 +52,17 @@ export default function Profile() {
             />
           </div>
           <div className="space-y-8">
-            <h1 className="font-semibold text-lg">Nwal Deshmukh</h1>
+            <h1 className="font-semibold text-lg">
+              {JSON.parse(localStorage.getItem("user")).username}
+            </h1>
             <div className="flex space-x-9">
-              <p>10 posts</p>
-              <p className="cursor-pointer">10 followers</p>
-              <p className="cursor-pointer">10 following</p>
+              <p>{posts.length} posts</p>
+              <p className="cursor-pointer">
+                {posts[0] ? posts[0].postedBy.followers.length : "0"} followers
+              </p>
+              <p className="cursor-pointer">
+                {posts[0] ? posts[0].postedBy.following.length : "0"} following
+              </p>
             </div>
           </div>
         </div>
