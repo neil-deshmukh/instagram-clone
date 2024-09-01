@@ -14,7 +14,7 @@ export default function Navbar() {
   const context = useContext(LoginContext)
   const [tokenExists, setTokenExists] = useState(false)
   let setIsModal = null;
-  if (path == "/") {
+  if (pathname == "/") {
     setIsModal = context.setIsModal
   }
   useEffect(() => {
