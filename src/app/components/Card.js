@@ -13,15 +13,15 @@ export default function Card({ post, likefunc, unlikefunc, commentfunc, showComm
     <div className="flex flex-col space-y-6 border border-gray-400 rounded py-4">
       <div className="flex items-center space-x-3 px-4">
         <Image
-          src="https://images.pexels.com/photos/4039724/pexels-photo-4039724.jpeg"
-          width={32}
-          height={32}
+          src={post.postedBy?.photo}
           className="rounded-full"
           alt="Skibbdi"
+          width={40}
+          height={40}
         />
-        <h5 className="font-semibold cursor-pointer">
-          <Link href={`/Profile/${post.postedBy._id}`}>
-            {post.postedBy.username}
+        <h5 className="font-semibold cursor-pointer text-lg">
+          <Link href={`/Profile/${post.postedBy?._id}`}>
+            {post.postedBy?.username}
           </Link>
         </h5>
       </div>
@@ -31,8 +31,8 @@ export default function Card({ post, likefunc, unlikefunc, commentfunc, showComm
       <div className="flex flex-col space-y-3">
         <div className="flex flex-col space-y-3 px-4">
           <div className="cursor-pointer">
-            {post.likes.includes(
-              JSON.parse(localStorage.getItem("user"))._id
+            {post.likes?.includes(
+              JSON.parse(JSON.stringify(localStorage.getItem("user")))._id
             ) ? (
               <FaHeart
                 fontSize={24}
@@ -43,7 +43,7 @@ export default function Card({ post, likefunc, unlikefunc, commentfunc, showComm
               <FaRegHeart fontSize={24} onClick={() => likefunc(post._id)} />
             )}
           </div>
-          <p className="font-semibold">{post.likes.length} likes</p>
+          <p className="font-semibold">{post.likes?.length} likes</p>
           <p className="text-gray-400">{post.body}</p>
           <p
             className="font-bold cursor-pointer"

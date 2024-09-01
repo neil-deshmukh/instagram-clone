@@ -46,10 +46,13 @@ export default function SignUp() {
     <div>
       <Navbar />
       <div className="flex items-center justify-center flex-col h-screen bg-gray-50">
-        <form className="flex flex-col space-y-5 text-center items-center p-10 shadow-2xl bg-white" onSubmit={(e) => {
-          e.preventDefault()
-          postData()
-        }}>
+        <form
+          className="flex flex-col space-y-5 text-center items-center p-10 shadow-2xl bg-white"
+          onSubmit={(e) => {
+            e.preventDefault();
+            postData();
+          }}
+        >
           <Image src={logo} width={160} />
           <p className="pointer-events-none">
             Sign Up to see photos and videos <br /> from your friends
@@ -98,13 +101,11 @@ export default function SignUp() {
             By signing up you are agreeing to our Terms, <br /> Privacy Policy
             and Cookies Policy
           </p>
-          <button
-            className="shadow bg-black hover:bg-gray-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-          >
+          <button className="shadow bg-black hover:bg-gray-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
             Submit
           </button>
           <p>
-            <span className="pointer-events-none mr-2">
+            <span className="pointer-events-none mr-2 py-4">
               Already have an account?
             </span>
             <Link

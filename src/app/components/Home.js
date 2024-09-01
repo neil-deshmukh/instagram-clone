@@ -95,10 +95,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      window.location.replace("/Signup");
-    }
     fetch("http://localhost:5000/allposts")
       .then((res) => res.json())
       .then((data) => {
