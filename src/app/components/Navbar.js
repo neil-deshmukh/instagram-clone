@@ -10,10 +10,12 @@ import { LoginContext } from "../loginContext";
 
 
 export default function Navbar() {
+  const pathname = usePathname()
+  const context = useContext(LoginContext)
   const [tokenExists, setTokenExists] = useState(false)
   let setIsModal = null;
-  if (usePathname() == "/") {
-    setIsModal = useContext(LoginContext).setIsModal
+  if (path == "/") {
+    setIsModal = context.setIsModal
   }
   useEffect(() => {
     const token = localStorage.getItem("jwt")
@@ -31,7 +33,7 @@ export default function Navbar() {
               href="/Signup"
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/Signup" }
+                { "font-extrabold text-xl": pathname == "/Signup" }
               )}
             >
               Sign Up
@@ -40,7 +42,7 @@ export default function Navbar() {
               href="/Signin"
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/Signin" }
+                { "font-extrabold text-xl": pathname == "/Signin" }
               )}
             >
               Sign In
@@ -53,7 +55,7 @@ export default function Navbar() {
               href="/"
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/" }
+                { "font-extrabold text-xl": pathname == "/" }
               )}
             >
               Home
@@ -62,7 +64,7 @@ export default function Navbar() {
               href="/Followingposts"
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/Followingposts" }
+                { "font-extrabold text-xl": pathname == "/Followingposts" }
               )}
             >
               Following Posts
@@ -71,7 +73,7 @@ export default function Navbar() {
               href="/Profile"
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/Profile" }
+                { "font-extrabold text-xl": pathname == "/Profile" }
               )}
             >
               Profile
@@ -80,7 +82,7 @@ export default function Navbar() {
               href="/Createpost"
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/Createpost" }
+                { "font-extrabold text-xl": pathname == "/Createpost" }
               )}
             >
               Create Post
@@ -89,7 +91,7 @@ export default function Navbar() {
               href={""}
               className={clsx(
                 "mx-[15px] cursor-pointer hover:font-semibold text-lg",
-                { "font-extrabold text-xl": usePathname() == "/Createpost" }
+                { "font-extrabold text-xl": pathname == "/" }
               )}
             >
               <button
