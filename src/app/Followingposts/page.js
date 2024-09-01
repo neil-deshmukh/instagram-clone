@@ -10,7 +10,7 @@ import "../components/Home.css";
 import "react-toastify/dist/ReactToastify.css";
 
 
-export default function followingPosts() {
+export default function FollowingPosts() {
   const [posts, setPosts] = useState([]);
   const [showComm, setShowComm] = useState(false);
   const [item, setItem] = useState([]);
